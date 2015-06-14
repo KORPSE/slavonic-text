@@ -135,7 +135,7 @@ public class EditorController {
         log.info("calling export to PDF");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save File");
-        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("PDF", ".pdf"));
+        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("PDF Files (*.pdf)", "*.pdf"));
         File file = fileChooser.showSaveDialog(text.getScene().getWindow());
         if (file != null) {
             try {
