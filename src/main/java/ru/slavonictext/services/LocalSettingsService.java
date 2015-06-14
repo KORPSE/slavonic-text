@@ -1,4 +1,4 @@
-package ru.slavonictext.app;
+package ru.slavonictext.services;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class LocalSettings {
+public class LocalSettingsService {
 
     private Config config;
 
@@ -19,11 +19,11 @@ public class LocalSettings {
 
     private final String confPath;
 
-    final static Logger log = Logger.getLogger(LocalSettings.class.getName());
+    final static Logger log = Logger.getLogger(LocalSettingsService.class.getName());
 
     private final Map<String, Object> spellingVariants;
 
-    public LocalSettings() {
+    public LocalSettingsService() {
         try {
             String dir = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParent();
             confPath = dir + "/settings.conf";

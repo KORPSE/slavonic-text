@@ -2,7 +2,6 @@ package ru.slavonictext.controllers;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.typesafe.config.Config;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
@@ -17,15 +16,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import ru.slavonictext.app.LocalSettings;
+import ru.slavonictext.services.LocalSettingsService;
 import ru.slavonictext.services.PdfService;
 import ru.slavonictext.util.ConfBean;
 
 import java.io.*;
 import java.net.URL;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +38,7 @@ public class EditorController {
     private PdfService pdfService;
 
     @Inject
-    private LocalSettings localSettings;
+    private LocalSettingsService localSettings;
 
     @FXML
     private ResourceBundle resources;
@@ -53,7 +50,17 @@ public class EditorController {
     private TextArea text;
 
     @FXML
-    private ListView aboveSymbolsView;
+    private ListView accentsView;
+
+    @FXML
+    private ListView aspirationsView;
+
+    @FXML
+    private ListView titloView;
+
+    private List<ListView> aboveSymbolsViews() {
+        return Lists.newArrayList(accentsView, aspirationsView, titloView);
+    }
 
     @FXML
     private ListView altSymbolsView;
@@ -143,7 +150,7 @@ public class EditorController {
         if (StringUtils.isEmpty(str) || str.length() > 10) {
             return false;
         } else if (str.length() > 1) {
-            if (Lists.charactersOf(str.substring(1)).stream().allMatch(chr -> conf.getAboveSymbols().contains(chr.toString()))) {
+            if (Lists.charactersOf(str.substring(1)).stream().allMatch(chr -> conf.getAboveSymbols().all().contains(chr.toString()))) {
                 return true;
             } else {
                 return false;
@@ -155,11 +162,13 @@ public class EditorController {
 
     @FXML
     private void handleSelection(Event event) {
-        aboveSymbolsView.getItems().clear();
+        aboveSymbolsViews().forEach(listView -> listView.getItems().clear());
         altSymbolsView.getItems().clear();
         String selection = text.getSelectedText();
         if (oneInlineChar(selection)) {
-            conf.getAboveSymbols().forEach(ch -> aboveSymbolsView.getItems().add(selection + ch));
+            conf.getAboveSymbols().getAccents().forEach(ch -> accentsView.getItems().add(selection + ch));
+            conf.getAboveSymbols().getAspirations().forEach(ch -> aspirationsView.getItems().add(selection + ch));
+            conf.getAboveSymbols().getTitlo().forEach(ch -> titloView.getItems().add(selection + ch));
             if (conf.getAltSymbols().containsKey(selection)) {
                 ((List<String>) conf.getAltSymbols().get(selection)).forEach(ch -> altSymbolsView.getItems().add(ch));
             }
@@ -168,8 +177,8 @@ public class EditorController {
 
     @FXML
     private void handleAddAboveSymbol(Event event) {
-        text.replaceSelection((String) aboveSymbolsView.getSelectionModel().getSelectedItem());
-        aboveSymbolsView.getItems().clear();
+        text.replaceSelection((String) ((ListView) event.getSource()).getSelectionModel().getSelectedItem());
+        aboveSymbolsViews().forEach(listView -> listView.getItems().clear());
         text.requestFocus();
     }
 
@@ -197,13 +206,23 @@ public class EditorController {
         altSymbolsView.requestFocus();
     }
     @FXML
-    private void focusAboveSymbols(Event event) {
+    private void focusAccentsSymbols(Event event) {
         accordion.getPanes().get(1).setExpanded(true);
-        aboveSymbolsView.requestFocus();
+        accentsView.requestFocus();
+    }
+    @FXML
+    private void focusAspirationsSymbols(Event event) {
+        accordion.getPanes().get(2).setExpanded(true);
+        aspirationsView.requestFocus();
+    }
+    @FXML
+    private void focusTitloSymbols(Event event) {
+        accordion.getPanes().get(3).setExpanded(true);
+        titloView.requestFocus();
     }
     @FXML
     private void focusAddSymbols(Event event) {
-        accordion.getPanes().get(2).setExpanded(true);
+        accordion.getPanes().get(4).setExpanded(true);
         addSymbolsView.requestFocus();
     }
 

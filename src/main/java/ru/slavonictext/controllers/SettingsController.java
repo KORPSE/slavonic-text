@@ -10,7 +10,7 @@ import javafx.scene.control.Control;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import org.apache.commons.lang.StringUtils;
-import ru.slavonictext.app.LocalSettings;
+import ru.slavonictext.services.LocalSettingsService;
 import ru.slavonictext.util.ConfBean;
 
 import java.util.HashMap;
@@ -25,7 +25,7 @@ public class SettingsController {
     private ConfBean conf;
 
     @Inject
-    private LocalSettings localSettings;
+    private LocalSettingsService localSettings;
 
     @FXML
     private ListView baseLetters;

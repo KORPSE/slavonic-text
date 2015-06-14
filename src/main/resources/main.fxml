@@ -26,11 +26,29 @@
             </AnchorPane>
           </content>
         </TitledPane>
-        <TitledPane fx:id="aboveSymbolsTab" animated="false" text="Надстрочники">
+        <TitledPane fx:id="accentsTab" animated="false" text="Ударения">
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
-                <ListView fx:id="aboveSymbolsView" editable="false" onMouseClicked="#handleAddAboveSymbol" onKeyPressed="#clickOnEnter" prefHeight="350.0" prefWidth="144.0" styleClass="slavonic" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                <ListView fx:id="accentsView" editable="false" onMouseClicked="#handleAddAboveSymbol" onKeyPressed="#clickOnEnter" prefHeight="350.0" prefWidth="144.0" styleClass="slavonic" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+              </children>
+            </AnchorPane>
+          </content>
+        </TitledPane>
+        <TitledPane fx:id="aspirationsTab" animated="false" text="Придыхания">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <ListView fx:id="aspirationsView" editable="false" onMouseClicked="#handleAddAboveSymbol" onKeyPressed="#clickOnEnter" prefHeight="350.0" prefWidth="144.0" styleClass="slavonic" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+              </children>
+            </AnchorPane>
+          </content>
+        </TitledPane>
+        <TitledPane fx:id="titloTab" animated="false" text="Титла">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <ListView fx:id="titloView" editable="false" onMouseClicked="#handleAddAboveSymbol" onKeyPressed="#clickOnEnter" prefHeight="350.0" prefWidth="144.0" styleClass="slavonic" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
               </children>
             </AnchorPane>
           </content>
@@ -72,14 +90,24 @@
                 <KeyCodeCombination alt="UP" code="DIGIT1" control="ANY" meta="UP" shift="UP" shortcut="UP" />
               </accelerator>
             </MenuItem>
-            <MenuItem mnemonicParsing="false" onAction="#focusAboveSymbols" text="Надстрочники">
+            <MenuItem mnemonicParsing="false" onAction="#focusAccentsSymbols" text="Ударения">
               <accelerator>
                 <KeyCodeCombination alt="UP" code="DIGIT2" control="ANY" meta="UP" shift="UP" shortcut="UP" />
               </accelerator>
             </MenuItem>
-            <MenuItem mnemonicParsing="false" onAction="#focusAddSymbols" text="Дополнительно">
+            <MenuItem mnemonicParsing="false" onAction="#focusAspirationsSymbols" text="Придыхания">
               <accelerator>
                 <KeyCodeCombination alt="UP" code="DIGIT3" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#focusTitloSymbols" text="Титла">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="DIGIT4" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#focusAddSymbols" text="Дополнительно">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="DIGIT5" control="ANY" meta="UP" shift="UP" shortcut="UP" />
               </accelerator>
             </MenuItem>
             <MenuItem mnemonicParsing="false" onAction="#showSettings" text="Настройки" />
