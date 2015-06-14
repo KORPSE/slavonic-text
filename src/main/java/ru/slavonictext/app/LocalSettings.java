@@ -25,7 +25,8 @@ public class LocalSettings {
 
     public LocalSettings() {
         try {
-            confPath = getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath() + "settings.conf";
+            String dir = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParent();
+            confPath = dir + "/settings.conf";
             File f = new File(confPath);
             if (f.exists()) {
                 config = ConfigFactory.parseFile(f);

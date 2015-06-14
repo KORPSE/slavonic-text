@@ -1,5 +1,6 @@
 package ru.slavonictext.controllers;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.typesafe.config.Config;
 import javafx.event.Event;
@@ -22,6 +23,7 @@ import ru.slavonictext.util.ConfBean;
 
 import java.io.*;
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -137,12 +139,26 @@ public class EditorController {
         }
     }
 
+    private boolean oneInlineChar(String str) {
+        if (StringUtils.isEmpty(str) || str.length() > 10) {
+            return false;
+        } else if (str.length() > 1) {
+            if (Lists.charactersOf(str.substring(1)).stream().allMatch(chr -> conf.getAboveSymbols().contains(chr.toString()))) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
     @FXML
     private void handleSelection(Event event) {
         aboveSymbolsView.getItems().clear();
         altSymbolsView.getItems().clear();
         String selection = text.getSelectedText();
-        if (selection.length() == 1 || (selection.length() == 2 && conf.getAboveSymbols().contains(selection.substring(1, 2)))) {
+        if (oneInlineChar(selection)) {
             conf.getAboveSymbols().forEach(ch -> aboveSymbolsView.getItems().add(selection + ch));
             if (conf.getAltSymbols().containsKey(selection)) {
                 ((List<String>) conf.getAltSymbols().get(selection)).forEach(ch -> altSymbolsView.getItems().add(ch));
