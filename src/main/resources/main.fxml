@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?scenebuilder-stylesheet style.css?>
+
+<BorderPane id="BorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ru.slavonictext.controllers.EditorController">
+  <center>
+    <TextArea fx:id="text" onKeyReleased="#handleSelection" onMouseClicked="#handleSelection" prefWidth="200.0" styleClass="slavonic" wrapText="true" />
+  </center>
+  <right>
+    <Accordion fx:id="accordion" minWidth="148.0" prefHeight="376.0" prefWidth="148.0">
+      <panes>
+        <TitledPane fx:id="alternativeSymbolsTab" animated="false" expanded="false" styleClass="first-titled-pane" text="Варианты">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <ListView fx:id="altSymbolsView" editable="false" onMouseClicked="#handleAddAltSymbol" onKeyPressed="#clickOnEnter" prefHeight="350.0" prefWidth="144.0" styleClass="slavonic" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+              </children>
+            </AnchorPane>
+          </content>
+        </TitledPane>
+        <TitledPane fx:id="aboveSymbolsTab" animated="false" text="Надстрочники">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <ListView fx:id="aboveSymbolsView" editable="false" onMouseClicked="#handleAddAboveSymbol" onKeyPressed="#clickOnEnter" prefHeight="350.0" prefWidth="144.0" styleClass="slavonic" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+              </children>
+            </AnchorPane>
+          </content>
+        </TitledPane>
+        <TitledPane fx:id="addSymbolsTab" animated="false" text="Дополнительно">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <ListView fx:id="addSymbolsView" editable="false" onMouseClicked="#handleAddSymbol" onKeyPressed="#clickOnEnter" prefHeight="350.0" prefWidth="144.0" styleClass="slavonic" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+              </children>
+            </AnchorPane>
+          </content>
+        </TitledPane>
+      </panes>
+    </Accordion>
+  </right>
+  <stylesheets>
+    <URL value="@style.css" />
+  </stylesheets>
+  <top>
+    <MenuBar>
+      <menus>
+        <Menu mnemonicParsing="false" text="Файл">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#handleOpenEvent" text="Открыть" />
+            <MenuItem mnemonicParsing="false" onAction="#handleSaveAsEvent" text="Сохранить как" />
+            <Menu mnemonicParsing="false" text="Экспорт">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#handleExportToPdf" text="в PDF" />
+              </items>
+            </Menu>
+            <MenuItem mnemonicParsing="false" onAction="#handleSaveEvent" text="Сохранить" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Правка">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#focusAltSymbols" text="Варианты">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="DIGIT1" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#focusAboveSymbols" text="Надстрочники">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="DIGIT2" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#focusAddSymbols" text="Дополнительно">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="DIGIT3" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#showSettings" text="Настройки" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+  </top>
+</BorderPane>

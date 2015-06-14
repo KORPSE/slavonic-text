@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.net.URL?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<SplitPane dividerPositions="0.9014492753623189" focusTraversable="true" orientation="VERTICAL" pickOnBounds="false" prefHeight="347.0" prefWidth="300.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ru.slavonictext.controllers.SettingsController">
+  <items>
+    <SplitPane dividerPositions="0.28378378378378377" focusTraversable="true" prefHeight="400.0" prefWidth="600.0">
+      <items>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <children>
+            <ListView fx:id="baseLetters" prefHeight="398.0" prefWidth="141.0" styleClass="slavonic" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+          </children>
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="slavonic">
+          <children>
+            <ListView fx:id="chooseLetters" prefHeight="398.0" prefWidth="451.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+          </children>
+        </AnchorPane>
+      </items>
+      <stylesheets>
+        <URL value="@style.css" />
+      </stylesheets>
+    </SplitPane>
+    <ToolBar style="-fx-alignment: CENTER_RIGHT">
+      <items>
+        <Button defaultButton="true" mnemonicParsing="false" text="Сохранить" onAction="#save" />
+        <Button mnemonicParsing="false" text="Сбросить" onAction="#resetVariants" />
+        <Button cancelButton="true" mnemonicParsing="false" text="Отменить" onAction="#close" />
+      </items>
+    </ToolBar>
+  </items>
+</SplitPane>

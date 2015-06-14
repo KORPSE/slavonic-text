@@ -1,0 +1,8 @@
+@font-face {
+    font-family: "Fedorovsk Unicode TT";
+    src: url("font.ttf");
+}
+
+.slavonic {
+    -fx-font: 20px "Fedorovsk Unicode TT";
+}
