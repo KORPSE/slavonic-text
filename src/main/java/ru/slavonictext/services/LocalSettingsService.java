@@ -16,12 +16,15 @@ public class LocalSettingsService {
     private Config config;
 
     private final static String spellingVariantsPath = "localSettings.spellingVariants";
+    private final static String replacementsPath = "localSettings.replacements";
 
     private final String confPath;
 
     final static Logger log = Logger.getLogger(LocalSettingsService.class.getName());
 
     private final Map<String, Object> spellingVariants;
+
+    private final Map<String, Object> replacements;
 
     public LocalSettingsService() {
         try {
@@ -34,6 +37,7 @@ public class LocalSettingsService {
                 config = ConfigFactory.load("defaultSettings");
             }
             spellingVariants = config.getObject(spellingVariantsPath).unwrapped();
+            replacements = config.getObject(replacementsPath).unwrapped();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -43,13 +47,19 @@ public class LocalSettingsService {
         return spellingVariants;
     }
 
+    public Map<String, Object> getReplacements() {
+        return replacements;
+    }
+
     public void persist() {
-        config = config.withValue(spellingVariantsPath, ConfigValueFactory.fromMap(spellingVariants));
+        config = config
+                .withValue(spellingVariantsPath, ConfigValueFactory.fromMap(spellingVariants))
+                .withValue(replacementsPath, ConfigValueFactory.fromMap(replacements));
         try {
             FileUtils.write(new File(confPath), config.root().withOnlyKey("localSettings").render(
                     ConfigRenderOptions.defaults().setComments(false).setOriginComments(false)));
         } catch (IOException ex) {
-            log.warning(ex.getMessage());
+            log.severe(ex.getMessage());
         }
     }
 

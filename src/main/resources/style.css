@@ -4,5 +4,9 @@
 }
 
 .slavonic {
-    -fx-font: 20px "Fedorovsk Unicode TT";
+    -fx-font: 25px "Fedorovsk Unicode TT";
+}
+
+.monospace {
+    -fx-font-family: "Monospaced";
 }

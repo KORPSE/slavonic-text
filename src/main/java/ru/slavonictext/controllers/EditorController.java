@@ -240,14 +240,22 @@ public class EditorController {
         settingsStage.show();
     }
 
+    private TextFormatter formatter = new TextFormatter<String>(change -> {
+        localSettings.getSpellingVariants().forEach(
+                (letter, variant) -> change.setText(change.getText().replace(letter, (String) variant)));
+        localSettings.getReplacements().forEach(
+                (letter, replacement) -> {
+                    change.setText(change.getText().replace(letter, (String) replacement)
+                            .replace(letter.toUpperCase(), ((String) replacement).toUpperCase()));
+                }
+        );
+        return change;
+    });
+
     @FXML
     void initialize() {
-        text.setTextFormatter(new TextFormatter<String>(change -> {
-            localSettings.getSpellingVariants().forEach(
-                    (letter, variant) -> change.setText(change.getText().replace(letter, (String) variant)));
-            return change;
-        }));
-        addSymbolsView.getItems().addAll(conf.getAddSymbols());
+        text.setTextFormatter(formatter);
+        addSymbolsView.getItems().addAll(localSettings.getReplacements().keySet());
         log.info("it works");
     }
 

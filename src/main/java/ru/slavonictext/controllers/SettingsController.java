@@ -2,12 +2,15 @@ package ru.slavonictext.controllers;
 
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.inject.Inject;
+import com.typesafe.config.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Control;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import org.apache.commons.lang.StringUtils;
 import ru.slavonictext.services.LocalSettingsService;
@@ -33,7 +36,12 @@ public class SettingsController {
     @FXML
     private ListView chooseLetters;
 
+    @FXML
+    private TextArea replacementsEdit;
+
     private final Map<String, Object> spellingVariants = new HashMap<String, Object>();
+
+    private ConfigRenderOptions renderOptions = ConfigRenderOptions.defaults().setJson(false).setComments(false).setOriginComments(false);
 
     private void resetStage() {
         spellingVariants.clear();
@@ -41,6 +49,8 @@ public class SettingsController {
         baseLetters.getItems().clear();
         baseLetters.getItems().addAll(ImmutableSortedSet.copyOf(conf.getAltSymbols().keySet()));
         chooseLetters.getItems().clear();
+        replacementsEdit.setText(ConfigValueFactory.fromMap(localSettings.getReplacements())
+                .render(renderOptions));
     }
 
     @FXML
@@ -108,10 +118,23 @@ public class SettingsController {
 
     @FXML
     private void save(Event event) {
-        localSettings.getSpellingVariants().clear();
-        localSettings.getSpellingVariants().putAll(spellingVariants);
-        localSettings.persist();
-        doClose(event);
+        try {
+            Config conf = ConfigFactory.parseString(replacementsEdit.getText());
+            localSettings.getReplacements().clear();
+            localSettings.getReplacements().putAll(conf.root().unwrapped());
+            localSettings.getSpellingVariants().clear();
+            localSettings.getSpellingVariants().putAll(spellingVariants);
+            replacementsEdit.setText(conf.root().render(renderOptions));
+            localSettings.persist();
+            doClose(event);
+        } catch (ConfigException ex) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Предупреждение");
+            alert.setHeaderText("Формат конфигурации неверен");
+            alert.setContentText("Используйте формат вида <вводимый_символ> = <замена>\nдопустима символов в виде юникод последовательностей в кавычках: \"\\u0000\"");
+
+            alert.showAndWait();
+        }
     }
 
     @FXML

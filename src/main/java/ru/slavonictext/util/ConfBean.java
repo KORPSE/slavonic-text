@@ -9,7 +9,6 @@ import java.util.Set;
 public class ConfBean {
     private AboveCharacters aboveSymbols;
     private Map<String, Object> altSymbols;
-    private List<String> addSymbols;
 
     public AboveCharacters getAboveSymbols() {
         return aboveSymbols;
@@ -25,14 +24,6 @@ public class ConfBean {
 
     public void setAltSymbols(Map<String, Object> altSymbols) {
         this.altSymbols = altSymbols;
-    }
-
-    public List<String> getAddSymbols() {
-        return addSymbols;
-    }
-
-    public void setAddSymbols(List<String> addSymbols) {
-        this.addSymbols = addSymbols;
     }
 
     public static class AboveCharacters {

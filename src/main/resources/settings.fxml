@@ -8,31 +8,48 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<SplitPane dividerPositions="0.9014492753623189" focusTraversable="true" orientation="VERTICAL" pickOnBounds="false" prefHeight="347.0" prefWidth="300.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ru.slavonictext.controllers.SettingsController">
+<SplitPane dividerPositions="0.9431438127090301" focusTraversable="true" orientation="VERTICAL" pickOnBounds="false" prefHeight="600.0" prefWidth="420.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ru.slavonictext.controllers.SettingsController">
   <items>
-    <SplitPane dividerPositions="0.28378378378378377" focusTraversable="true" prefHeight="400.0" prefWidth="600.0">
-      <items>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-          <children>
-            <ListView fx:id="baseLetters" prefHeight="398.0" prefWidth="141.0" styleClass="slavonic" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-          </children>
-        </AnchorPane>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="slavonic">
-          <children>
-            <ListView fx:id="chooseLetters" prefHeight="398.0" prefWidth="451.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-          </children>
-        </AnchorPane>
-      </items>
-      <stylesheets>
-        <URL value="@style.css" />
-      </stylesheets>
-    </SplitPane>
+    <TabPane tabClosingPolicy="UNAVAILABLE">
+      <tabs>
+        <Tab text="Варианты написания">
+          <content>
+            <SplitPane dividerPositions="0.3004807692307692" focusTraversable="true" prefHeight="400.0" prefWidth="600.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                  <children>
+                    <ListView fx:id="baseLetters" prefHeight="398.0" prefWidth="141.0" styleClass="slavonic" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="slavonic">
+                  <children>
+                    <ListView fx:id="chooseLetters" prefHeight="398.0" prefWidth="451.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  </children>
+                </AnchorPane>
+              </items>
+            </SplitPane>
+          </content>
+        </Tab>
+        <Tab text="Дополнительные символы">
+          <content>
+            <AnchorPane id="Content">
+              <children>
+                <TextArea fx:id="replacementsEdit" styleClass="monospace" text="" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
     <ToolBar style="-fx-alignment: CENTER_RIGHT">
       <items>
-        <Button defaultButton="true" mnemonicParsing="false" text="Сохранить" onAction="#save" />
-        <Button mnemonicParsing="false" text="Сбросить" onAction="#resetVariants" />
-        <Button cancelButton="true" mnemonicParsing="false" text="Отменить" onAction="#close" />
+        <Button defaultButton="true" mnemonicParsing="false" onAction="#save" text="Сохранить" />
+        <Button mnemonicParsing="false" onAction="#resetVariants" text="Сбросить" />
+        <Button cancelButton="true" mnemonicParsing="false" onAction="#close" text="Отменить" />
       </items>
     </ToolBar>
   </items>
+  <stylesheets>
+    <URL value="@style.css" />
+  </stylesheets>
 </SplitPane>
