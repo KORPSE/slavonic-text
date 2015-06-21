@@ -20,10 +20,7 @@ import ru.slavonictext.services.LocalSettingsService;
 import ru.slavonictext.services.PdfService;
 import ru.slavonictext.util.ConfBean;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 import java.util.logging.Level;
@@ -89,7 +86,9 @@ public class EditorController {
         File file = fileChooser.showOpenDialog(text.getScene().getWindow());
         if (file != null && file.exists()) {
             try {
-                text.setText(IOUtils.toString(new FileInputStream(file), "UTF-8"));
+                InputStream is = new FileInputStream(file);
+                text.setText(IOUtils.toString(is, "UTF-8"));
+                is.close();
                 fileName = file.getAbsolutePath();
             } catch (IOException ex) {
                 log.log(Level.WARNING, ex.getMessage());
@@ -99,9 +98,9 @@ public class EditorController {
 
     private void doSave(File file, String content) throws IOException {
         log.info("trying to save " + file.getName());
-        FileWriter w = new FileWriter(file);
-        w.write(text.getText());
-        w.close();
+        OutputStream os = new FileOutputStream(file);
+        IOUtils.write(content, os, "UTF-8");
+        os.close();
     }
 
     @FXML
@@ -178,6 +177,12 @@ public class EditorController {
         }
     }
 
+    private void doReplaceSelection(String replacement) {
+        text.setTextFormatter(null);
+        text.replaceSelection(replacement);
+        text.setTextFormatter(formatter);
+    }
+
     @FXML
     private void handleAddAboveSymbol(Event event) {
         text.replaceSelection((String) ((ListView) event.getSource()).getSelectionModel().getSelectedItem());
@@ -187,7 +192,7 @@ public class EditorController {
 
     @FXML
     private void handleAddAltSymbol(Event event) {
-        text.replaceSelection((String) altSymbolsView.getSelectionModel().getSelectedItem());
+        doReplaceSelection((String) altSymbolsView.getSelectionModel().getSelectedItem());
         altSymbolsView.getItems().clear();
         text.requestFocus();
     }
@@ -196,7 +201,7 @@ public class EditorController {
     private void handleAddSymbol(Event event) {
         String value = (String) addSymbolsView.getSelectionModel().getSelectedItem();
         if (text.getSelectedText().length() > 0){
-            text.replaceSelection(value);
+            doReplaceSelection(value);
         } else {
             text.insertText(text.getCaretPosition(), value);
         }
@@ -235,6 +240,8 @@ public class EditorController {
             Event.fireEvent(event.getTarget(), new MouseEvent(MouseEvent.MOUSE_CLICKED, 0,
                     0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,
                     true, true, true, true, true, true, null));
+        } else if (event.getCode().equals(KeyCode.ESCAPE)) {
+            text.requestFocus();
         }
     }
 
@@ -261,6 +268,7 @@ public class EditorController {
         Set<Object> additionalChars = new TreeSet<Object>(localSettings.getReplacements().values());
         Set<Object> additionalCharsUp = additionalChars.stream().map(chr -> ((String) chr).toUpperCase()).collect(Collectors.toSet());
         additionalChars.addAll(additionalCharsUp);
+        additionalChars.addAll(conf.getAddSymbols());
         addSymbolsView.getItems().addAll(additionalChars);
         log.info("it works");
     }
