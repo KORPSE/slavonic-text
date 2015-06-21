@@ -34,6 +34,7 @@ public class Main extends Application {
         Scene scene = new Scene(root, 800, 600);
 
         primaryStage.setScene(scene);
+        primaryStage.setTitle("CSPad");
         primaryStage.show();
 
         // Settings stage
@@ -46,6 +47,7 @@ public class Main extends Application {
         Scene settingsScene = new Scene(settingsRoot, 600, 420);
 
         settings.setScene(settingsScene);
+        settings.setTitle("Настройки");
 
         ((EditorController) loader.getController()).setSettingsStage(settings);
     }

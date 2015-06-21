@@ -20,12 +20,15 @@ import ru.slavonictext.services.LocalSettingsService;
 import ru.slavonictext.services.PdfService;
 import ru.slavonictext.util.ConfBean;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class EditorController {
 
@@ -255,7 +258,10 @@ public class EditorController {
     @FXML
     void initialize() {
         text.setTextFormatter(formatter);
-        addSymbolsView.getItems().addAll(localSettings.getReplacements().keySet());
+        Set<Object> additionalChars = new TreeSet<Object>(localSettings.getReplacements().values());
+        Set<Object> additionalCharsUp = additionalChars.stream().map(chr -> ((String) chr).toUpperCase()).collect(Collectors.toSet());
+        additionalChars.addAll(additionalCharsUp);
+        addSymbolsView.getItems().addAll(additionalChars);
         log.info("it works");
     }
 

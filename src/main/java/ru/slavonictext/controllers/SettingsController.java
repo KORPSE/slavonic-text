@@ -7,10 +7,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Control;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.apache.commons.lang.StringUtils;
 import ru.slavonictext.services.LocalSettingsService;
@@ -43,14 +40,18 @@ public class SettingsController {
 
     private ConfigRenderOptions renderOptions = ConfigRenderOptions.defaults().setJson(false).setComments(false).setOriginComments(false);
 
+    private String renderReplacements() {
+        return ConfigValueFactory.fromMap(localSettings.getReplacements())
+                .render(renderOptions);
+    }
+
     private void resetStage() {
         spellingVariants.clear();
         spellingVariants.putAll(localSettings.getSpellingVariants());
         baseLetters.getItems().clear();
         baseLetters.getItems().addAll(ImmutableSortedSet.copyOf(conf.getAltSymbols().keySet()));
         chooseLetters.getItems().clear();
-        replacementsEdit.setText(ConfigValueFactory.fromMap(localSettings.getReplacements())
-                .render(renderOptions));
+        replacementsEdit.setText(renderReplacements());
     }
 
     @FXML
@@ -131,7 +132,7 @@ public class SettingsController {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Предупреждение");
             alert.setHeaderText("Формат конфигурации неверен");
-            alert.setContentText("Используйте формат вида <вводимый_символ> = <замена>\nдопустима символов в виде юникод последовательностей в кавычках: \"\\u0000\"");
+            alert.setContentText("Используйте формат вида: \n\n<вводимый_символ> = <замена>\n\nДопустимо представление символов в виде юникод последовательностей в кавычках: \n\"\\u0000\"");
 
             alert.showAndWait();
         }
@@ -140,6 +141,7 @@ public class SettingsController {
     @FXML
     private void resetVariants(Event event) {
         spellingVariants.clear();
+        replacementsEdit.setText(renderReplacements());
         chooseLetters.getSelectionModel().select(0);
     }
 }

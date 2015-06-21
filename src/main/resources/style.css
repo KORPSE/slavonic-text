@@ -9,4 +9,5 @@
 
 .monospace {
     -fx-font-family: "Monospaced";
+    -fx-font-size: 15px;
 }
